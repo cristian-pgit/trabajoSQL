@@ -1,0 +1,546 @@
+CONSULTAS
+EJERCICIO 1
+1. Lista el nombre de todos los productos que hay en la tabla producto.
+select nombre from producto;
+
+2. Lista los nombres y los precios de todos los productos de la tabla producto.
+select nombre, precio from producto;
+
+3. Lista todas las columnas de la tabla producto.
+select * from producto;
+
+4. Lista el nombre de los productos, el precio en euros y el precio en dólares estadounidenses (USD).
+select nombre, precio, precio*1.21 as precio_dolar from producto;
+
+5. Lista el nombre de los productos, el precio en euros y el precio en dólares estadounidenses (USD). Utiliza los siguientes alias para las columnas: nombre de producto, euros, dólares.
+select nombre as nombre_de_producto, precio as euro, precio*1.21 as dolar from producto;
+
+6. Lista los nombres y los precios de todos los productos de la tabla producto, convirtiendo los nombres a mayúscula.
+select ucase(nombre), precio from producto;
+
+7. Lista los nombres y los precios de todos los productos de la tabla producto, convirtiendo los nombres a minúscula.
+select lcase(nombre), precio from producto;
+
+8. Lista el nombre de todos los fabricantes en una columna, y en otra columna obtenga en mayúsculas los dos primeros caracteres del nombre del fabricante.
+select nombre, left( ucase(nombre),2) as iniciales from fabricante;
+
+9. Lista los nombres y los precios de todos los productos de la tabla producto, redondeando el valor del precio.
+select nombre, round(precio) from producto;
+
+10. Lista los nombres y los precios de todos los productos de la tabla producto, truncando el valor del precio para mostrarlo sin ninguna cifra decimal.
+select nombre, truncate(precio,0) from producto;
+
+11. Lista el código de los fabricantes que tienen productos en la tabla product.
+select codigo_fabricante from producto;
+
+12. Lista el código de los fabricantes que tienen productos en la tabla producto, eliminando los códigos que aparecen repetidos.
+select distinct codigo_fabricante from producto;
+
+13. Lista los nombres de los fabricantes ordenados de forma ascendente.
+select nombre from fabricante order by nombre asc;
+
+14. Lista los nombres de los fabricantes ordenados de forma descendente.
+select nombre from fabricante order by nombre desc;
+
+15. Lista los nombres de los productos ordenados en primer lugar por el nombre de forma ascendente y en segundo lugar por el precio de forma descendente.
+select nombre, precio from producto order by nombre asc, precio desc;
+
+16. Devuelve una lista con las 5 primeras filas de la tabla fabricante.
+select * from fabricante limit 5;
+
+17. Devuelve una lista con 2 filas a partir de la cuarta fila de la tabla fabricante. La cuarta fila también se debe incluir en la respuesta.
+select * from fabricante limit 3,2;
+
+18. Lista el nombre y el precio del producto más barato. (Utilice solamente las cláusulas ORDER BY y LIMIT)
+select nombre, precio from producto order by precio asc limit 1;
+
+19. Lista el nombre y el precio del producto más caro. (Utilice solamente las cláusulas ORDER BY y LIMIT)
+select nombre, precio from producto order by precio desc limit 1;
+
+20. Lista el nombre de todos los productos del fabricante cuyo código de fabricante es igual a 2.
+select nombre from producto where codigo_fabricante=2;
+
+21. Lista el nombre de los productos que tienen un precio menor o igual a 120€.
+select nombre from producto where precio <= 120;
+
+22. Lista el nombre de los productos que tienen un precio mayor o igual a 400€.
+select nombre from producto where precio >= 400;
+
+23. Lista el nombre de los productos que no tienen un precio mayor o igual a 400€.
+select nombre from producto where not precio >= 400;
+
+24. Lista todos los productos que tengan un precio entre 80€ y 300€. Sin utilizar el operador BETWEEN.
+select nombre from producto where precio >= 80 and precio <= 300 ;
+
+25. Lista todos los productos que tengan un precio entre 60€ y 200€. Utilizando el operador BETWEEN.
+select nombre from producto where precio between 60 and 200;
+
+26. Lista todos los productos que tengan un precio mayor que 200€ y que el código de fabricante sea igual a 6.
+select nombre from producto where precio > 200 and codigo_fabricante=6;
+
+27. Lista todos los productos donde el código de fabricante sea 1, 3 o 5. Sin utilizar el operador IN.
+select nombre
+from producto where codigo_fabricante= 1 or codigo_fabricante= 3 or codigo_fabricante= 5;
+
+28. Lista todos los productos donde el código de fabricante sea 1, 3 o 5. Utilizando el operador IN.
+select nombre from producto where codigo_fabricante in (1,3,5);
+
+29. Lista el nombre y el precio de los productos en céntimos (Habrá que multiplicar por 100 el valor del precio). Cree un alias para la columna que contiene el precio que se llame céntimos.
+select nombre,precio*100 as céntimos from producto;
+
+30. Lista los nombres de los fabricantes cuyo nombre empiece por la letra S.
+select nombre from fabricante where nombre like "S%";
+
+31. Lista los nombres de los fabricantes cuyo nombre termine por la vocal e.
+select nombre from fabricante where nombre like "%e";
+
+32. Lista los nombres de los fabricantes cuyo nombre contenga el carácter w.
+select nombre from fabricante where nombre like "%w%";
+
+33. Lista los nombres de los fabricantes cuyo nombre sea de 4 caracteres.
+select nombre from fabricante where length(nombre) = 4;
+
+34. Devuelve una lista con el nombre de todos los productos que contienen la cadena Portátil
+en el nombre. select nombre from producto where ucase(nombre) like "%PORTÁTIL%";
+
+35. Devuelve una lista con el nombre de todos los productos que contienen la cadena Monitor en el nombre y tienen un precio inferior a 215 €.
+select nombre from producto where ucase(nombre) like "%MONITOR%" and precio < 215;
+
+36. Lista el nombre y el precio de todos los productos que tengan un precio mayor o igual a 180€. Ordene el resultado en primer lugar por el precio (en orden descendente) y en segundo lugar por el nombre (en orden ascendente).
+select nombre,precio from producto where precio >=180 order by precio asc, nombre desc;
+
+CONSULTAS RESUMEN
+1. Calcula el número total de productos que hay en la tabla productos.
+select count(*) FROM producto;
+
+2. Calcula el número total de fabricantes que hay en la tabla fabricante.
+select count(*) FROM fabricante;
+
+3. Calcula el número de valores distintos de código de fabricante aparecen en la tabla productos.
+select count(distinct codigo_fabricante) from producto;
+
+4. Calcula la media del precio de todos los productos.
+select round( avg(precio),2)
+
+from producto;
+
+5. Calcula el precio más barato de todos los productos.
+select min(precio)
+
+from producto;
+
+6. Calcula el precio más caro de todos los productos.
+select max(precio) from producto;
+
+7. Lista el nombre y el precio del producto más barato.
+No hacer
+
+8. Lista el nombre y el precio del producto más caro.
+No hacer
+
+9. Calcula la suma de los precios de todos los productos.
+select sum(precio)
+
+from producto;
+
+10. Calcula el número de productos que tiene el fabricante Asus.
+select count(*)
+
+from producto where codigo_fabricante=1;
+
+11. Calcula la media del precio de todos los productos del fabricante Asus.
+select avg(precio) from producto where codigo_fabricante=1;
+
+12. Calcula el precio más barato de todos los productos del fabricante Asus.
+select min(precio) from producto where codigo_fabricante=1;
+
+13. Calcula el precio más caro de todos los productos del fabricante Asus.
+select max(precio) from producto where codigo_fabricante=1;
+
+14. Calcula la suma de todos los productos del fabricante Asus.
+select count(*) from producto where codigo_fabricante=1;
+
+15. Muestra el precio máximo, precio mínimo, precio medio y el número total de productos que tiene el fabricante Crucial.
+select min(precio), max(precio),avg(precio), count(*) from producto where codigo_fabricante=6;
+
+16. Muestra el número total de productos que tiene cada uno de los fabricantes. Ordene el resultado descendentemente por el número de productos.
+select count(*) as cd_des from producto group by codigo_fabricante order by cd_des desc;
+
+17. Muestra el precio máximo, precio mínimo y precio medio de los productos de cada uno de los fabricantes.
+select codigo_fabricante, max(precio), min(precio), avg(precio) from producto group by codigo_fabricante;
+
+18. Muestra el precio máximo, precio mínimo, precio medio y el número total de productos de los fabricantes que tienen un precio medio superior a 200€.
+select max(precio), min(precio), avg(precio) as medio,count(*) from producto group by codigo_fabricante having medio >200;
+
+19. Muestra el código de cada fabricante, junto con el precio máximo, precio mínimo, precio medio y el número total de productos de los fabricantes que tienen un precio medio superior a 200€.
+select codigo_fabricante, max(precio), min(precio), avg(precio) as medio,count(*) from producto group by codigo_fabricante having medio >200;
+
+20. Calcula el número de productos que tienen un precio mayor o igual a 180€.
+select count(*) from producto where precio >=180;
+
+21. Calcula el número de productos que tiene cada fabricante con un precio mayor o igual a 180€.
+select codigo_fabricante,count(*)
+from producto where precio >=180 group by codigo_fabricante;
+
+22. Lista el precio medio los productos de cada fabricante, mostrando solamente el código del fabricante.
+select codigo_fabricante, avg(precio),count(*)
+from producto group by codigo_fabricante;
+
+23. Lista los códigos de los fabricantes cuyos productos tienen un precio medio mayor o igual a 150€.0.
+select codigo_fabricante from producto
+
+group by codigo_fabricante
+having avg(precio)>=150;
+24. Devuelve un listado con los códigos de los fabricantes que tienen 2 o más productos. select codigo_fabricante, count(*)
+from producto group by codigo_fabricante having count(*)>=2
+
+25. Devuelve un listado con los códigos de los fabricantes donde la suma del precio de todos sus productos es superior a 1000 €.
+select codigo_fabricante, count(*) from producto group by codigo_fabricante having sum(precio)>1000;
+
+EJERCICIO 2:
+1. Lista el primer apellido de todos los empleados
+select apellido1 from empleado;
+
+2. Lista el primer apellido de los empleados eliminando los apellidos que estén repetidos.
+select distinct (apellido1) from empleado;
+
+3. Lista todas las columnas de la tabla empleado.
+select * from empleado;
+
+4. Lista el nombre y los apellidos de todos los empleados.
+select nombre, apellido1, apellido2
+
+from empleado;
+
+5. Lista el código de los departamentos de los empleados que aparecen en la tabla empleado. select codigo_departamento from empleado;
+6. Lista el código de los departamentos de los empleados que aparecen en la tabla empleado, eliminando los códigos que aparecen repetidos.
+select distinct(codigo_departamento) from empleado;
+
+7. Lista el nombre y apellidos de los empleados en una única columna.
+select concat(nombre," ",apellido1," ",Coalesce(apellido2,"")) from empleado;
+
+8. Lista el nombre y apellidos de los empleados en una única columna, convirtiendo todos los caracteres en mayúscula.
+select ucase(concat(nombre," ",apellido1," ", coalesce(apellido2,""))) from empleado;
+
+9. Lista el nombre y apellidos de los empleados en una única columna, convirtiendo todos los caracteres en minúscula.
+select lcase(concat(nombre," ",apellido1," ", coalesce(apellido2,""))) from empleado;
+
+10. Lista el código de los empleados junto al nif, pero el nif deberá aparecer en dos columnas, una mostrará únicamente los dígitos del nif y la otra la letra.
+select codigo,left(nif,8), right(nif,1) from empleado;
+
+11. Lista el nombre de cada departamento y el valor del presupuesto actual del que dispone. Para calcular este dato tendrá que restar al valor del presupuesto inicial (columna presupuesto) los gastos que se han generado (columna gastos). Tenga en cuenta que en algunos casos pueden existir valores negativos. Utilice un alias apropiado para la nueva columna columna que está calculando.
+select nombre, presupuesto-(gastos) as presupuesto_actual from departamento;
+
+12. Lista el nombre de los departamentos y el valor del presupuesto actual ordenado de forma ascendente.
+select nombre, presupuesto-(gastos) as presupuesto_actual from departamento order by presupuesto_actual asc;
+
+13. Lista el nombre de todos los departamentos ordenados de forma ascendente select nombre from departamento
+order by nombre asc;
+
+14. Lista el nombre de todos los departamentos ordenados de forma desscendente.
+select nombre
+
+from departamento
+
+order by nombre desc;
+
+15. Lista los apellidos y el nombre de todos los empleados, ordenados de forma alfabética tendiendo en cuenta en primer lugar sus apellidos y luego su nombre.
+select apellido1,apellido2,nombre from empleado order by apellido1 asc, coalesce(apellido2,"") asc, nombre asc;
+
+16. Devuelve una lista con el nombre y el presupuesto, de los 3 departamentos que tienen mayor presupuesto.
+select nombre, presupuesto from departamento order by presupuesto desc limit 3;
+
+17. Devuelve una lista con el nombre y el presupuesto, de los 3 departamentos que tienen menor presupuesto.
+select nombre, presupuesto from departamento order by presupuesto asc limit 3;
+
+18. Devuelve una lista con el nombre y el gasto, de los 2 departamentos que tienen mayor gasto. select nombre, gastos
+from departamento order by gastos desc limit 2;
+
+19. Devuelve una lista con el nombre y el gasto, de los 2 departamentos que tienen menor gasto.
+select nombre, gastos from departamento order by gastos asc limit 2;
+
+20. Devuelve una lista con 5 filas a partir de la tercera fila de la tabla empleado. La tercera fila se debe incluir en la respuesta. La respuesta debe incluir todas las columnas de la tabla empleado. select *
+from empleado limit 2,5;
+
+21. Devuelve una lista con el nombre de los departamentos y el presupuesto, de aquellos que tienen un presupuesto mayor o igual a 150000 euros
+select nombre, presupuesto from departamento where presupuesto >=150000;
+
+22. Devuelve una lista con el nombre de los departamentos y el gasto, de aquellos que tienen menos de 5000 euros de gastos.
+select nombre, gastos from departamento where gastos<5000;
+
+23. Devuelve una lista con el nombre de los departamentos y el presupesto, de aquellos que tienen un presupuesto entre 100000 y 200000 euros. Sin utilizar el operador BETWEEN. select nombre, presupuesto
+from departamento where presupuesto > 100000 and presupuesto < 200000;
+
+24. Devuelve una lista con el nombre de los departamentos que no tienen un presupuesto entre 100000 y 200000 euros. Sin utilizar el operador BETWEEN.
+select nombre from departamento where not (presupuesto > 100000 and presupuesto < 200000);
+
+25. Devuelve una lista con el nombre de los departamentos que tienen un presupuesto entre 100000 y 200000 euros. Utilizando el operador BETWEEN.
+select nombre from departamento where presupuesto between 100000 and 200000;
+
+26. Devuelve una lista con el nombre de los departamentos que no tienen un presupuesto entre 100000 y 200000 euros. Utilizando el operador BETWEEN.
+select nombre from departamento where not (presupuesto between 100000 and 200000);
+
+27. Devuelve una lista con el nombre de los departamentos, gastos y presupuesto, de quellos departamentos donde los gastos sean mayores que el presupuesto del que disponen.
+select nombre, gastos, presupuesto from departamento where gastos > presupuesto;
+
+28. Devuelve una lista con el nombre de los departamentos, gastos y presupuesto, de aquellos departamentos donde los gastos sean menores que el presupuesto del que disponen.
+select nombre, gastos, presupuesto from departamento where gastos < presupuesto;
+
+29. Devuelve una lista con el nombre de los departamentos, gastos y presupuesto, de aquellos departamentos donde los gastos sean iguales al presupuesto del que disponen.
+select nombre, gastos, presupuesto from departamento where gastos = presupuesto;
+
+30. Lista todos los datos de los empleados cuyo segundo apellido sea NULL.
+select * from empleado where apellido2 is null;
+
+31. Lista todos los datos de los empleados cuyo segundo apellido no sea NULL.
+select *
+
+from empleado
+
+where apellido2 is not null;
+
+32. Lista todos los datos de los empleados cuyo segundo apellido sea López.
+select * from empleado where lcase(apellido2) = "lópez";
+
+33. Lista todos los datos de los empleados cuyo segundo apellido sea Díaz o Moreno. Sin utilizar el operador IN.
+select * from empleado where lcase(apellido2) = "díaz" or lcase(apellido2) = "moreno";
+
+34. Lista todos los datos de los empleados cuyo segundo apellido sea Díaz o Moreno.
+Utilizando el operador IN. select * from empleado where lcase(apellido2) in ("díaz", "moreno");
+
+35. Lista los nombres, apellidos y nif de los empleados que trabajan en el departamento 3.
+select nombre,apellido1,apellido2,nif from empleado where codigo_departamento=3;
+
+36. Lista los nombres, apellidos y nif de los empleados que trabajan en los departamentos 2, 4
+o 5.
+select nombre,apellido1,apellido2,nif,codigo_departamento from empleado where codigo_departamento in(2,4,5)
+
+CONSULTA RESUMEN
+1. Calcula la suma del presupuesto de todos los departamentos.
+select sum(presupuesto) from departamento;
+
+2. Calcula la media del presupuesto de todos los departamentos select avg(presupuesto) from departamento;
+3. Calcula el valor mínimo del presupuesto de todos los departamentos. select min(presupuesto)
+from departamento;
+
+4. Calcula el nombre del departamento y el presupuesto que tiene asignado, del departamento con menor presupuesto.
+5. Calcula el valor máximo del presupuesto de todos los departamentos
+select max(presupuesto) from departamento;
+
+6. Calcula el nombre del departamento y el presupuesto que tiene asignado, del departamento con mayor presupuesto.
+7. Calcula el número total de empleados que hay en la tabla empleado.
+select count(*) from empleado;
+
+8. Calcula el número de empleados que no tienen NULL en su segundo apellido.
+select count(*) from empleado where apellido2 is not null;
+
+9. Calcula el número de empleados que hay en cada departamento. Tienes que devolver dos columnas, una con el código del departamento y otra con el número de empleados que tiene asignados
+select codigo_departamento, count(*) from empleado group by codigo_departamento;
+
+10. Calcula el código de los departamentos que tienen más de 2 empleados. El resultado debe tener dos columnas, una con el código del departamento y otra con el número de empleados que tiene asignados.
+select codigo_departamento, count(*) from empleado group by codigo_departamento having count(*)=2;
+
+11. Calcula el número de empleados que trabajan en cada uno de los departamentos.
+select count(*) from empleado group by codigo_departamento;
+
+EJERCICIO 3
+1. Devuelve un listado con todos los pedidos que se han realizado. Los pedidos deben estar ordenados por la fecha de realización, mostrando en primer lugar los pedidos más recientes.
+select total from pedido order by fecha asc;
+
+2. Devuelve todos los datos de los dos pedidos de mayor valor.
+select * from pedido order by total desc limit 2;
+
+3. Devuelve un listado con los identificadores de los clientes que han realizado algún pedido. Tenga en cuenta que no debe mostrar identificadores que estén repetidos. select distinct(id_cliente)
+from pedido;
+
+4. Devuelve un listado de todos los pedidos que se realizaron durante el año 2017, cuya cantidad total sea superior a 500€
+select total from pedido where year(fecha)="2017" and total > 500;
+
+5. Devuelve un listado con el nombre y los apellidos de los comerciales que tienen una comisión entre 0.05 y 0.11
+select nombre, apellido1,apellido2 from comercial where comisión between 0.05 and 0.11;
+
+6. Devuelve el valor de la comisión de mayor valor que existe en la tabla comercial.
+select comisión from comercial order by comisión desc limit 1;
+
+7. Devuelve el identificador, nombre y primer apellido de aquellos clientes cuyo segundo apellido no es NULL. El listado deberá estar ordenado alfabéticamente por apellidos y nombre.
+select id, nombre, apellido1 from cliente where apellido2 is not null order by nombre asc;
+
+8. Devuelve un listado de los nombres de los clientes que empiezan por A y terminan por n y también los nombres que empiezan por P. El listado deberá estar ordenado alfabéticamente.
+select nombre from cliente where nombre like "A%n" or nombre like "P%" order by nombre asc;
+
+9. Devuelve un listado de los nombres de los clientes que no empiezan por A. El listado deberá estar ordenado alfabéticamente.
+select nombre from cliente where nombre not like "A%" order by nombre asc;
+
+10. Devuelve un listado con los nombres de los comerciales que terminan por el o.
+Tenga en cuenta que se deberán eliminar los nombres repetidos. select distinct(nombre) from comercial where nombre like "%o";
+
+CONSULTAS RESUMEN
+1. Calcula la cantidad total que suman todos los pedidos que aparecen en la tabla pedido.
+select sum(total) from pedido;
+
+2. Calcula la cantidad media de todos los pedidos que aparecen en la tabla pedido.
+select avg(total) from pedido;
+
+2. Calcula el número total de comerciales distintos que aparecen en la tabla pedido.
+select count(distinct(id_comercial)) from pedido;
+
+4. Calcula el número total de clientes que aparecen en la tabla cliente.
+select count(*)
+
+from cliente;
+
+5. Calcula cuál es la mayor cantidad que aparece en la tabla pedido.
+select MAX(total)
+
+from pedido;
+
+6. Calcula cuál es la menor cantidad que aparece en la tabla pedido.
+select min(total)
+
+from pedido;
+
+7. Calcula cuál es el valor máximo de categoría para cada una de las ciudades que aparece en la tabla cliente.
+select ciudad, max(categoría) from cliente group by ciudad;
+
+8. Calcula cuál es el máximo valor de los pedidos realizados durante el mismo día para cada uno de los clientes. Es decir, el mismo cliente puede haber realizado varios pedidos de diferentes cantidades el mismo día. Se pide que se calcule cuál es el pedido de máximo valor para cada uno de los días en los que un cliente ha realizado un pedido. Muestra el identificador del cliente, la fecha y el valor de la cantidad.
+select id_cliente,fecha, max(total) from pedido group by fecha;
+
+9. Calcula cuál es el máximo valor (cantidad) de los pedidos realizados durante el mismo día para cada uno de los clientes, teniendo en cuenta que sólo queremos mostrar aquellos pedidos que superen la cantidad de 2000 €. select id_cliente,fecha, max(total)
+from pedido group by fecha having max(total) > 2000;
+
+10. Calcula el máximo valor de los pedidos realizados para cada uno de los comerciales durante la fecha 2016- 08-17.
+select max(total),fecha from pedido group by id_comercial having month(fecha)=08;
+
+11. Devuelve un listado con el identificador de cliente y el número total de pedidos que ha realizado cada uno de clientes durante el año 2017.
+select id_cliente, count(total),fecha from pedido group by id_cliente having year(fecha)=2017;
+
+12. Devuelve cuál ha sido el pedido de máximo valor que se ha realizado cada año.
+select max(total),fecha from pedido group by year(fecha);
+
+13. Devuelve el número total de pedidos que se han realizado cada año.
+select count(total),fecha from pedido group by year(fecha);
+
+EJERCICIO 4
+1. Devuelve un listado con el código de oficina y la ciudad donde hay oficinas.
+select codigo_oficina,ciudad from oficina;
+
+2. Devuelve un listado con la ciudad y el teléfono de las oficinas de España.
+select ciudad, telefono from oficina where pais="España";
+
+3. Devuelve un listado con el nombre, apellidos y email de los empleados cuyo jefe tiene un código
+de jefe igual a 7.
+
+select nombre, apellido1, apellido2, email from empleado where codigo_jefe=7;
+
+4. Devuelve el nombre del puesto, nombre, apellidos y email del jefe de la empresa.
+select puesto,nombre,apellido1,apellido2, email from empleado where codigo_jefe is null;
+
+5. Devuelve un listado con el nombre, apellidos y puesto de aquellos empleados que no sean representantes de ventas.
+select nombre,apellido1,apellido2, puesto from empleado where not puesto= "Representante ventas";
+
+6. Devuelve un listado con el nombre de los todos los clientes españoles.
+select nombre_cliente from cliente where pais="Spain";
+
+7. Devuelve un listado con los distintos estados por los que puede pasar un pedido.
+select distinct(estado) from pedido;
+
+8. Devuelve un listado con el código de cliente de aquellos clientes que realizaron algún pago en 2008. Tenga en cuenta que deberá eliminar aquellos códigos de cliente que aparezcan repetidos.
+Resuelva la consulta:
+
+9. Utilizando la función YEAR de MySQL.
+select distinct(codigo_cliente) from pago where year(fecha_pago)=2008;
+
+10. Utilizando la función DATE_FORMAT de MySQL.
+select distinct(codigo_cliente)
+
+from pago where date_format(fecha_pago, '%Y' )= '2008';
+
+11 Sin utilizar ninguna de las funciones anteriores.
+select distinct(codigo_cliente) from pago where fecha_pago like "2008%";
+
+select distinct(codigo_cliente) from pago where fecha_pago between "2008-01-01" and "2008-12-31";
+
+12. Devuelve un listado con el código de pedido, código de cliente, fecha esperada y fecha de entrega de los pedidos que no han sido entregados a tiempo.
+select codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega from pedido where fecha_esperada < fecha_entrega;
+
+13 Devuelve un listado con el código de pedido, código de cliente, fecha esperada y fecha de entrega de los pedidos cuya fecha de entrega ha sido al menos dos días antes de la fecha esperada.
+• Utilizando la función ADDDATE de MySQL. select codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega from pedido where adddate(fecha_entrega,2) <= fecha_esperada;
+• Utilizando la función DATEDIFF de MySQL. select codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega
+from pedido where datediff(fecha_esperada,fecha_entrega) >=2;
+
+13. Devuelve un listado de todos los pedidos que fueron rechazados en 2009. select estado,fecha_entrega
+from pedido where estado="rechazado" and year(fecha_entrega)=2009;
+
+14. Devuelve un listado de todos los pedidos que han sido entregados en el mes de enero de cualquier año.
+select estado,fecha_entrega from pedido where estado="entregado" and month(fecha_entrega)=01;
+
+15. Devuelve un listado con todos los pagos que se realizaron en el año 2008 mediante Paypal. Ordene el resultado de mayor a menor.
+select forma_pago,fecha_pago from pago where forma_pago="Paypal" and year(fecha_pago)="2008";
+
+16. Devuelve un listado con todas las formas de pago que aparecen en la tabla pago. Tenga en cuenta que no deben aparecer formas de pago repetidas.
+select distinct( forma_pago) from pago;
+
+17. Devuelve un listado con todos los productos que pertenecen a la gama Ornamentales y que tienen más de 100 unidades en stock. El listado deberá estar ordenado por su precio de venta, mostrando en primer lugar los de mayor precio.
+select nombre,gama,cantidad_en_stock,precio_venta from producto
+
+where gama="Ornamentales" and cantidad_en_stock > 100 order by precio_venta desc;
+
+18. Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y cuyo representante de ventas tenga el código de empleado 11 o 30. select nombre_cliente from cliente where ciudad="Madrid" and codigo_empleado_rep_ventas in (11,30);
+Consultas resumen
+
+1. ¿Cuántos empleados hay en la compañía?
+select count(*) from empleado;
+
+2. ¿Cuántos clientes tiene cada país?
+select count(*), pais from cliente group by pais;
+
+3. ¿Cuál fue el pago medio en 2009?
+select avg(total) from pago where year(fecha_pago)="2009";
+
+4. ¿Cuántos pedidos hay en cada estado? Ordena el resultado de forma descendente por el número de pedidos.
+select count(*), estado from pedido group by estado;
+
+5. Calcula el precio de venta del producto más caro y más barato en una misma consulta. select max(precio_venta), min(precio_venta)
+from producto;
+
+6. Calcula el número de clientes que tiene la empresa.
+select count(*) from cliente;
+
+7. ¿Cuántos clientes tiene la ciudad de Madrid? select count(*)
+from cliente where ciudad="Madrid";
+
+8. ¿Calcula cuántos clientes tiene cada una de las ciudades que empiezan por M?
+select count(*), ciudad from cliente group by ciudad having ciudad like "M%";
+
+9. Devuelve el código de los representantes de ventas y el número de clientes al que atiende cada uno.
+select distinct codigo_empleado_rep_ventas, count(*) from cliente group by codigo_empleado_rep_ventas;
+
+10. Calcula la fecha del primer y último pago realizado por cada uno de los clientes.
+select codigo_cliente, min(fecha_pago), max(fecha_pago) from pago group by codigo_cliente;
+
+11. Calcula el número de productos diferentes que hay en cada uno de los pedidos. select distinct codigo_pedido, count(codigo_producto) from detalle_pedido
+group by codigo_pedido;
+
+12. Calcula la suma de la cantidad total de todos los productos que aparecen en cada uno de los pedidos.
+select sum(cantidad),codigo_pedido from detalle_pedido group by codigo_pedido;
+
+13. Devuelve un listado de los 20 productos más vendidos y el número total de unidades que se han vendido de cada uno. El listado deberá estar ordenado por el número total de unidades vendidas.
+select codigo_producto,cantidad from detalle_pedido order by cantidad desc limit 20;
+
+14. La facturación que ha tenido la empresa en toda la historia, indicando la base imponible, el IVA y el total facturado. La base imponible se calcula sumando el coste del producto por el número de unidades vendidas de la tabla detalle_pedido. El IVA es el 21 % de la base imponible, y el total la suma de los dos campos anteriores.
+select cantidad*precio_unidad as base_imponible, (cantidad*precio_unidad)*0.21 as iva, (cantidad*precio_unidad)+ (cantidad*precio_unidad)*0.21 as total_facturado from detalle_pedido;
+
+15. La misma información que en la pregunta anterior, pero agrupada por código de producto.
+select cantidad*precio_unidad as base_imponible, (cantidad*precio_unidad)*0.21 as iva, (cantidad*precio_unidad)+ (cantidad*precio_unidad)*0.21 as total_facturado from detalle_pedido
+
+group by codigo_producto;
+
+16. La misma información que en la pregunta anterior, pero agrupada por código de producto filtrada por los códigos que empiecen por OR.
+select cantidad*precio_unidad as base_imponible, (cantidad*precio_unidad)*0.21 as iva, (cantidad*precio_unidad)+ (cantidad*precio_unidad)*0.21 as total_facturado from detalle_pedido
+
+group by codigo_producto having codigo_producto like "OR%";
+
+17. Lista las ventas totales de los productos que hayan facturado más de 3000 euros. Se mostrará el código de producto, unidades vendidas, total facturado y total facturado con impuestos (21% IVA).
+select codigo_producto,cantidad, (cantidad*precio_unidad) as total_facturado, (cantidad*precio_unidad)+ (cantidad*precio_unidad)*0.21 as
+
+total_facturado_con_IVA from detalle_pedido where (cantidad*precio_unidad) + (cantidad*precio_unidad)*0.21 > 3000;
