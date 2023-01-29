@@ -175,17 +175,234 @@ order by precio desc, nombre asc
 
 /*------Consultas Multitabla----------*/
 /*01*/
+select p.nombre, p.precio, f.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
 
+/*02*/
+select p.nombre, p.precio, f.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+order by f.nombre asc
+
+/*03*/
+select p.id, p.nombre, f.id, f.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+
+/*04*/
+select p.nombre, p.precio, f.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where precio = (select min(pp.precio) from producto pp)
+
+/*05*/
+select p.nombre, p.precio, f.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where precio = (select max(pp.precio) from producto pp)
+
+/*06*/
+select p.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre = 'Lenovo';
+
+/*07*/
+select p.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre = 'Crucial' and p.precio > 200;
+
+/*08*/
+select p.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre = 'Asus' or f.nombre = 'Hewlett-Packard' or f.nombre = 'Seagate';
+
+/*09*/
+select p.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre in('Asus','Hewlett-Packard','Seagate');
+
+/*10*/
+select p.nombre, p.precio
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre like '%e';
+
+/*11*/
+select p.nombre, p.precio
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre like '%w%';
+
+/*12*/
+select p.nombre, p.precio, f.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where p.precio >= 180
+order by p.precio desc, p.nombre asc;
+
+/*13*/
+select f.id, f.nombre
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where p.nombre is not null;
+
+/*Consultas Multitabla - Composicion Externa*/
 
 /*01*/
+select f.id, f.nombre, p.nombre
+from fabricante f left join producto p
+on f.id = p.id_fabricante;
 
+/*02*/
+select f.nombre, p.nombre
+from fabricante f left join producto p
+on f.id = p.id_fabricante
+where p.nombre is null;
+
+/*03*/
+/*No se puede tener productos sin asignar pues la tabla producto tiene como propiedad el ser "NOT NULL" y ademas es Foreign Key
+ por lo que no se podria crear un producto que no tenga asosciado un id de fabricante */
+
+/*Consultas resumen*/
 
 /*01*/
+select (count(id)) as Cant_Prod from producto;
 
+/*02*/
+select (count(id)) as Cant_Fab from fabricante;
 
-/*01*/
+/*03*/
+select id_fabricante, (count(id_fabricante)) as N_articulos  from producto
+group by id_fabricante;  /*<<--*/
 
+/*04*/
+select avg(precio)  from producto;
 
+/*05*/
+select min(precio)  from producto;
+
+/*06*/
+select max(precio)  from producto;
+
+/*07*/
+select nombre, min(precio)
+from producto
+group by nombre;
+
+/*08*/
+select nombre, max(precio)
+from producto
+group by nombre;
+
+/*09*/
+select sum(precio)
+from producto;
+
+/*10*/
+select (count(p.nombre)) as Asus
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre = 'Asus';
+
+/*11*/
+select (avg(p.precio)) as PrecioPromedio
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre = 'Asus';
+
+/*12*/
+select (min(p.precio)) as PrecioBajo
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre = 'Asus';
+
+/*13*/
+select (max(p.precio)) as PrecioBajo
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre = 'Asus';
+
+/*14*/
+select (sum(p.precio)) as SumaPrecios
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre = 'Asus';
+
+/*15*/
+select (max(precio))as MasAlto, (min(precio))as MasBajo,(avg(precio))as Promedio,(count(p.precio)) as CantProd
+from producto p join fabricante f
+on f.id = p.id_fabricante
+where f.nombre = 'Crucial';
+
+/*16*/
+select f.nombre, (count(p.nombre))as CantArticulos
+from producto p right join fabricante f /* en este caso es rightJoin pues deje "From Producto join a Fabricante", de ser inverso es un LeftJoin*/
+on f.id = p.id_fabricante
+group by f.nombre
+order by CantArticulos desc;
+
+/*17*/
+select f.nombre, (max(p.precio))as PrecioMasCaro, (min(p.precio))as PrecioMasCaro, (avg(p.precio))as PrecioPromedio
+from producto p join fabricante f
+on f.id = p.id_fabricante
+group by f.nombre;
+
+/*18*/
+select id_fabricante,(max(precio))as PMC, (min(precio))as PMB, (avg(precio))as PP, (count(f.nombre))as TA  
+from producto 							/* PMC Precio Mas Caro, PMB PRecio Mas Barato, PP Precio Promedio*/
+group by id_fabricante
+having avg(precio) > 200;
+
+/*19*/
+select f.nombre,(max(p.precio))as PMC, (min(p.precio))as PMB, (avg(p.precio))as PP, (count(f.nombre))as TA
+from producto p join fabricante f on f.id = id_fabricante	/* PMC Precio Mas Caro, PMB PRecio Mas Barato, PP Precio Promedio, TA Total Articulos*/
+group by id_fabricante
+having avg(precio) > 200;
+
+/*20*/
+select (count(nombre))as CAB180  /* CAB180: Cantidad de Articulos Bajo 180E*/
+from producto 
+where precio >= 180;
+
+/*21*/
+select f.nombre, (count(p.nombre))as CAB180
+from producto p join fabricante f on f.id = p.id_fabricante
+where precio >= 180
+group by f.nombre;
+
+/*22*/
+select id_fabricante, (avg(precio))as $Promedio
+from producto 
+group by id_fabricante;
+
+/*23*/
+select f.nombre, (avg(p.precio))as $Promedio
+from fabricante f left join producto p on f.id = p.id_fabricante
+group by f.nombre;
+
+/*24*/
+select f.nombre, avg(p.precio)as $Promedio
+from fabricante f left join producto p on f.id = p.id_fabricante
+group by f.nombre
+having $Promedio >=150;
+
+/*25*/
+select f.nombre, count(p.nombre)as Cant
+from fabricante f join producto p on f.id = p.id_fabricante
+group by f.nombre
+having Cant >= 2;
+
+/*26*/
+select f.nombre, avg(precio) as precio_medio
+from fabricante f
+inner join producto p on p.id_fabricante = f.id
+group by f.nombre
+having precio_medio >= 150
 
 
 
