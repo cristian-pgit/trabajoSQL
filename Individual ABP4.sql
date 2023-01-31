@@ -31,8 +31,24 @@ WHERE total != (subtotal + impuesto);
 /*4. Finalmente, genere una consulta en la que se elimine un cliente a través de su identificador
 (idcliente), y posterior a eso otra consulta que elimine todas las ventas asociadas a dicho
 cliente (siempre de acuerdo con el campo idcliente).*/
+/*primera forma -- Notas: */
 delete from ventas
-where clientes_idcliente = 3; /* se tendria que primero borrar las ventas asociadas al cliente pues idcliente es FK, y de ahi borrar clientes*/
+where clientes_idcliente = 3;
 delete from clientes
-where idcliente = 3;    /* alternamente si uno al crear la FK coloca On Delete Cascade, si borro el cliente por 
-defecto me borrara las ventas asociadas al cliente*/
+where idcliente = 3;
+
+/*segunda forma --- Nota: Alterar la restriccion en la FK para que ON DELETE sea 'CASCADE' 
+y al borrar cliente, borrara las ventas asociadas tambien*/
+
+delete from clientes
+where idcliente = 3;
+
+/*tercera forma -- Notas: factiblemente el deshabilitar la FK pone en riesgo la 
+integridad de la BD por lo cual esta no seria una solucion recomendable */
+
+SET FOREIGN_KEY_CHECKS = 0;
+delete from ventas
+where clientes_idcliente = 3;
+delete from clientes
+where idcliente = 3;
+SET FOREIGN_KEY_CHECKS = 1;
