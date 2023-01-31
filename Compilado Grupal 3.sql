@@ -39,6 +39,6 @@ WHERE dia and hora is null;
 /*6. Realice una consulta que permita eliminar todas aquellas capacitaciones que no tienen
 asistentes. Esto es, aquellas capacitaciones con el campo cantidadasistentes igual a 0, y sin
 registros relacionados en la tabla*/
-Delete from capacitación
-Where num_asistentes = 0 AND capacitacion.id 
-not in (Select asistentes.capacitacion_idcapatacion from Asistentes);
+Delete from capacitacion
+Where num_asistentes = 0 AND id 
+not in (Select capacitacion_idcapacitacion from Asistentes);
