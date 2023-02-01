@@ -1,0 +1,1 @@
+CALL insertNotNull_Ej61('Cristian', 'Carrillo');

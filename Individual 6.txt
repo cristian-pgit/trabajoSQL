@@ -1,0 +1,25 @@
+1. start transaction;
+set autocommit = 0;
+set foreign_key_checks = 0;
+
+insert into clientes (idcliente, nombres, apellidos) 
+values ('33','alberto', 'mayo');
+
+2.
+insert into ventas (idventa, cantarticulos, subtotal, impuesto, total, clientes_idcliente) 
+values ('111', '4', '1900', '100', '2000', '33');
+
+insert into ventas (idventa, vendedor, cantarticulos, subtotal, impuesto, total, clientes_idcliente) 
+values ('112', 'Sonia', '3', '2900', '200', '3100', '33');
+
+3. SELECT * FROM clientes;
+SELECT * FROM ventas;
+
+4. UPDATE `clientes` SET `telefono` = '7654356' WHERE (`idcliente` = '33');
+
+5. set foreign_key_checks = 1;
+select * from ventas;
+select * from clientes;
+rollback; 
+select * from ventas;
+select * from clientes;
