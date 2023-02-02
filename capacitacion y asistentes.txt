@@ -1,0 +1,36 @@
+1-
+
+
+2-
+
+
+3-
+
+
+4-
+
+
+5-
+
+Tabla capacitacion 
+
+
+
+CREATE TABLE `grupal`.`capacitacion` (
+  `idcapacitacion` TINYINT(9) NOT NULL,
+  `fecha` DATETIME NULL,
+  `hora` DATETIME NULL,
+  `lugar` VARCHAR(50) NOT NULL,
+  `duracion` TINYINT(3) NULL,
+  `cantidadasistentes` TINYINT(5) NOT NULL,
+  `cliente_rutcliente` TINYINT(9) NOT NULL,
+  PRIMARY KEY (`idcapacitacion`));
+
+
+
+CREATE TABLE `grupal`.`asistentes` (
+  `idasistentes` TINYINT(9) NOT NULL,
+  `nombres` VARCHAR(100) NOT NULL,
+  `edad` TINYINT(3) NOT NULL,
+  `capacitacion_idcapacitacion` TINYINT(9) NOT NULL,
+  PRIMARY KEY (`idasistentes`));

@@ -1,0 +1,22 @@
+----cliente
+
+CREATE TABLE `grupal`.`cliente` (
+  `rutcliente` TINYINT(9) NOT NULL,
+  `nombres` VARCHAR(30) NOT NULL,
+  `apellidos` VARCHAR(30) NOT NULL,
+  `telefono` VARCHAR(20) NOT NULL DEFAULT '000000000',
+  `afp` VARCHAR(30) NULL DEFAULT 'Fonasa',
+  `sistemasalud` TINYINT(2) NULL DEFAULT 0,
+  `direccion` VARCHAR(70) NULL,
+  `comuna` VARCHAR(50) NULL,
+  `edad` TINYINT(3) NOT NULL,
+  PRIMARY KEY (`rutcliente`));
+
+----accidente
+
+CREATE TABLE `grupal`.`accidente` (
+  `accidenteid` TINYINT(9) NOT NULL,
+  `nombres` VARCHAR(100) NOT NULL,
+  `edad` TINYINT(3) NOT NULL,
+  `capacitacion_idcapacitacion` TINYINT(9) NOT NULL,
+  PRIMARY KEY (`accidenteid`));

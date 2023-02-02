@@ -5,16 +5,19 @@ start transaction;
 
 	insert into clientes (idcliente, nombres, apellidos) 
 	values ('13','Armando', 'Bulla');
+    commit;
 
 	insert into ventas (idventa, cantarticulos, subtotal, impuesto, total, clientes_idcliente) 
 	values ('12', '2', '2000', '400', '2400', '13');
 	insert into ventas (idventa, vendedor, cantarticulos, subtotal, impuesto, total, clientes_idcliente) 
 	values ('13', 'Elsa Capuntas', '5', '5000', '1000', '6000', '13');
+    commit;
 
 	SELECT * FROM clientes;
 	SELECT * FROM ventas;
 
 	UPDATE clientes SET direccion = 'Estadio Nacional N100', telefono = '666999666' WHERE idcliente = '13';
+    commit;
 
 	set foreign_key_checks = 1;
 	select * from ventas;
@@ -40,6 +43,7 @@ insert into ventas (idventa, cantarticulos, subtotal, impuesto, total, clientes_
 values ('12', '2', '2000', '400', '2400', '13');
 insert into ventas (idventa, vendedor, cantarticulos, subtotal, impuesto, total, clientes_idcliente) 
 values ('13', 'Elsa Capuntas', '5', '5000', '1000', '6000', '13');
+commit;
 
 /*3. Incluya un comando para confirmar los cambios incluidos en las sentencias anteriores */
 SELECT * FROM clientes;
@@ -48,6 +52,7 @@ SELECT * FROM ventas;
 /*4. Genere una consulta que modifique el registro ingresado en el ítem 1 de este ejercicio, en
 específico otorgando valores a los campos que están nulos.*/
 UPDATE clientes SET direccion = 'Estadio Nacional N100', telefono = '666999666' WHERE idcliente = '13';
+commit;
 
 /*5. Incluya un comando para deshacer los cambios realizados anteriormente.*/
 set foreign_key_checks = 1;
