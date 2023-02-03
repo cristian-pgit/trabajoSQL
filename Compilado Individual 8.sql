@@ -80,3 +80,4 @@ values
 (8,32,23);
 
 /*5. Finalmente, incluya una sentencia de confirmación de la acción.*/
+commit;

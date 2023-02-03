@@ -3,7 +3,7 @@ DELIMITER $$
 CREATE TRIGGER sistemasalud_t
 before insert
 ON cliente FOR EACH ROW BEGIN
-	if (new.sistemasalud != 1 OR new.sistemasalud != 2) then
+	if (new.sistemasalud >2 and new.sistemasalud <1) then
     signal SQLSTATE '45000'
     set message_text = 'Valor no corresponde: sistema salud solo admite 1 o 2';
     END IF;
