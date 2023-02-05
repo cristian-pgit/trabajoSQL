@@ -1,0 +1,51 @@
+CREATE SCHEMA `indiv11` ;
+
+CREATE TABLE `indiv11`.`empresa` (
+  `id_com` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) NOT NULL,
+  `rut_com` VARCHAR(15) NOT NULL ;
+  `direccion` VARCHAR(70) NOT NULL,
+  `fono` VARCHAR(15) NOT NULL,
+  `comuna` VARCHAR(45) NOT NULL,
+  `pais` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_com`, `rut_com`));
+
+CREATE TABLE `indiv11`.`cliente` (
+  `id_cliente` INT NOT NULL,
+  `nombre` VARCHAR(70) NOT NULL,
+  `rut_cliente` VARCHAR(15) NOT NULL,
+  `direccion` VARCHAR(70) NOT NULL,
+  `ciudad` VARCHAR(45) NOT NULL,
+  `fono` INT NOT NULL,
+  PRIMARY KEY (`id_cliente`));
+
+CREATE TABLE `indiv11`.`factura` (
+  `id_fac` INT NOT NULL,
+  `cod_idcom` INT NOT NULL,
+  `cod_idcli` INT NOT NULL,
+  `fecha` DATE NOT NULL,
+  `cod_prod` INT NOT NULL,
+  `descripcion` VARCHAR(90) NOT NULL,
+  `cant` TINYINT(3) NOT NULL,
+  `p_unit` INT NOT NULL,
+  `total_item` BIGINT(8) NOT NULL,
+  `subtotal` BIGINT(8) NOT NULL,
+  `impuesto` INT NOT NULL,
+  `total` BIGINT(8) NOT NULL,
+  PRIMARY KEY (`id_fac`, `cod_idcom`, `cod_idcli`));
+
+ALTER TABLE `indiv11`.`factura` 
+ADD INDEX `factura_empresa_FK_idx` (`cod_idcom` ASC) VISIBLE,
+ADD INDEX `factura_cliente_FK_idx` (`cod_idcli` ASC) VISIBLE;
+;
+ALTER TABLE `indiv11`.`factura` 
+ADD CONSTRAINT `factura_empresa_FK`
+  FOREIGN KEY (`cod_idcom`)
+  REFERENCES `indiv11`.`empresa` (`id_com`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT,
+ADD CONSTRAINT `factura_cliente_FK`
+  FOREIGN KEY (`cod_idcli`)
+  REFERENCES `indiv11`.`cliente` (`id_cliente`)
+  ON DELETE NO ACTION
+  ON UPDATE RESTRICT;

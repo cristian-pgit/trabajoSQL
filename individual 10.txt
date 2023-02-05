@@ -1,0 +1,52 @@
+CREATE SCHEMA `clinicapatras` ;
+
+ CREATE TABLE `clinicapatras`.`pacientes` (
+  `cod_paciente` INT NOT NULL,
+  `nombres` VARCHAR(50) NOT NULL,
+  `apellidos` VARCHAR(50) NOT NULL,
+  `direccion` VARCHAR(70) NOT NULL,
+  `poblacion` VARCHAR(45) NULL,
+  `provincia` VARCHAR(45) NULL,
+  `cod_postal` INT NULL,
+  `telefono` INT NOT NULL,
+  `fecha de nacimiento` DATE NULL,
+  PRIMARY KEY (`cod_paciente`),
+  UNIQUE INDEX `cod_paciente_UNIQUE` (`cod_paciente` ASC) VISIBLE);
+
+CREATE TABLE `clinicapatras`.`medicos` (
+  `cod_medico` INT NOT NULL,
+  `nombres` VARCHAR(70) NOT NULL,
+  `apellidos` VARCHAR(70) NOT NULL,
+  `telefono` INT NOT NULL,
+  `especialidad` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`cod_medico`),
+  UNIQUE INDEX `cod_medico_UNIQUE` (`cod_medico` ASC) VISIBLE);
+
+CREATE TABLE `clinicapatras`.`ingresos` (
+  `cod_ingreso` INT NOT NULL AUTO_INCREMENT,
+  `cod_idpaciente` INT NOT NULL,
+  `medico_asignado` INT NOT NULL,
+  `nro_hab` TINYINT(3) NOT NULL,
+  `nro_cama` TINYINT(2) NOT NULL,
+  `fecha_ingreso` DATE NOT NULL,
+  PRIMARY KEY (`cod_ingreso`, `cod_idpaciente`, `medico_asignado`, `nro_hab`),
+  UNIQUE INDEX `cod_ingreso_UNIQUE` (`cod_ingreso` ASC) VISIBLE);
+
+ALTER TABLE `clinicapatras`.`ingresos` 
+ADD INDEX `ingreso_paciente_FK_idx` (`cod_idpaciente` ASC) VISIBLE,
+ADD INDEX `ingreso_medico_FK_idx` (`medico_asignado` ASC) VISIBLE;
+;
+ALTER TABLE `clinicapatras`.`ingresos` 
+ADD CONSTRAINT `ingreso_paciente_FK`
+  FOREIGN KEY (`cod_idpaciente`)
+  REFERENCES `clinicapatras`.`pacientes` (`cod_paciente`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT,
+ADD CONSTRAINT `ingreso_medico_FK`
+  FOREIGN KEY (`medico_asignado`)
+  REFERENCES `clinicapatras`.`medicos` (`cod_medico`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+
+
