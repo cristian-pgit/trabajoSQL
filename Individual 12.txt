@@ -1,0 +1,125 @@
+CREATE SCHEMA `indiv12` ;
+
+CREATE TABLE `indiv12`.`cliente` (
+  `id_cliente` INT(9) NOT NULL,
+  `nombres` VARCHAR(50) NOT NULL,
+  `apellidos` VARCHAR(50) NOT NULL,
+  `direccion` VARCHAR(70) NULL,
+  `telefono` INT NULL,
+  PRIMARY KEY (`id_cliente`));
+
+CREATE TABLE `indiv12`.`ventas` (
+  `idventa` INT NOT NULL,
+  `vendedor` VARCHAR(50) NOT NULL,
+  `cantarticulos` INT NOT NULL,
+  `subtotal` INT NOT NULL,
+  `impuesto` INT NOT NULL,
+  `total` INT NOT NULL,
+  `clientes_idcliente` INT NOT NULL,
+  PRIMARY KEY (`idventa`));
+
+ALTER TABLE `indiv12`.`ventas` 
+ADD INDEX `ventas_clientes_FK_idx` (`clientes_idcliente` ASC) VISIBLE;
+;
+ALTER TABLE `indiv12`.`ventas` 
+ADD CONSTRAINT `ventas_clientes_FK`
+  FOREIGN KEY (`clientes_idcliente`)
+  REFERENCES `indiv12`.`clientes` (`idcliente`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+CREATE TABLE `indiv12`.`categoria` (
+  `idcategoria` INT NOT NULL,
+  `nombrecategoria` VARCHAR(75) NOT NULL,
+  PRIMARY KEY (`idcategoria`));
+
+CREATE TABLE `indiv12`.`producto` (
+  `idproducto` INT NOT NULL,
+  `nombreproducto` VARCHAR(50) NOT NULL,
+  `valor` INT NOT NULL,
+  `categoria_idcategoria` INT NOT NULL,
+  PRIMARY KEY (`idproducto`));
+
+ALTER TABLE `indiv12`.`producto` 
+ADD INDEX `producto_categoria_FK_idx` (`categoria_idcategoria` ASC) VISIBLE;
+;
+ALTER TABLE `indiv12`.`producto` 
+ADD CONSTRAINT `producto_categoria_FK`
+  FOREIGN KEY (`categoria_idcategoria`)
+  REFERENCES `indiv12`.`categoria` (`idcategoria`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+CREATE TABLE `indiv12`.`detalleventa` (
+  `ventas_idventa` INT NOT NULL,
+  `producto_idproducto` INT NOT NULL,
+  `cantidad` INT NULL,
+  PRIMARY KEY (`ventas_idventa`, `producto_idproducto`));
+
+ALTER TABLE `indiv12`.`detalleventa` 
+ADD INDEX `detalleventa_producto_FK_idx` (`producto_idproducto` ASC) VISIBLE;
+;
+ALTER TABLE `indiv12`.`detalleventa` 
+ADD CONSTRAINT `detalleventa_ventas_FK`
+  FOREIGN KEY (`ventas_idventa`)
+  REFERENCES `indiv12`.`ventas` (`idventa`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT,
+ADD CONSTRAINT `detalleventa_producto_FK`
+  FOREIGN KEY (`producto_idproducto`)
+  REFERENCES `indiv12`.`producto` (`idproducto`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+CREATE TABLE `indiv12`.`registrofacturas` (
+  `idregistrofactura` INT NOT NULL AUTO_INCREMENT,
+  `fecha_emision` DATE NOT NULL,
+  `fecha_pago` DATE NOT NULL,
+  `monto_factura` INT NOT NULL,
+  `subtotal` INT NOT NULL,
+  `impuesto` INT NOT NULL,
+  `total` INT NOT NULL,
+  `venta_idventa` INT NOT NULL,
+  PRIMARY KEY (`idregistrofactura`));
+
+ALTER TABLE `indiv12`.`registrofacturas` 
+ADD INDEX `registrofactura_ventas_FK_idx` (`venta_idventa` ASC) VISIBLE;
+;
+ALTER TABLE `indiv12`.`registrofacturas` 
+ADD CONSTRAINT `registrofactura_ventas_FK`
+  FOREIGN KEY (`venta_idventa`)
+  REFERENCES `indiv12`.`ventas` (`idventa`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+CREATE TABLE `indiv12`.`ordendecompra` (
+  `idorden` INT NOT NULL,
+  `fecha_creacion` DATE NOT NULL,
+  `quien_autoriza` VARCHAR(50) NOT NULL,
+  `observaciones` VARCHAR(90) NOT NULL,
+  PRIMARY KEY (`idorden`),
+  UNIQUE INDEX `idorden_UNIQUE` (`idorden` ASC) VISIBLE);
+ALTER TABLE `indiv12`.`ordendecompra` 
+ADD CONSTRAINT `ordencompra_venta_FK`
+  FOREIGN KEY (`idorden`)
+  REFERENCES `indiv12`.`ventas` (`idventa`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+CREATE TABLE `indiv12`.`adquisiciones` (
+  `idadquisiciones` INT NOT NULL,
+  `fechacompra` DATE NOT NULL,
+  `nombreproveedor` VARCHAR(50) NOT NULL,
+  `cantidadadquirida` INT NOT NULL,
+  `cod_idproducto` INT NOT NULL,
+  PRIMARY KEY (`idadquisiciones`));
+
+ALTER TABLE `indiv12`.`adquisiciones` 
+ADD INDEX `adquisiciones_producto_FK_idx` (`cod_idproducto` ASC) VISIBLE;
+;
+ALTER TABLE `indiv12`.`adquisiciones` 
+ADD CONSTRAINT `adquisiciones_producto_FK`
+  FOREIGN KEY (`cod_idproducto`)
+  REFERENCES `indiv12`.`producto` (`idproducto`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;

@@ -186,3 +186,57 @@ ADD CONSTRAINT `administrativos_usuario_FK`
   REFERENCES `sprint`.`usuario` (`idusuario`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
+
+/*----- avance ----- */
+
+CREATE TABLE `sprint`.`pagoclientes` (
+  `idpagoclientes` INT NOT NULL,
+  `fechapago` DATE NOT NULL,
+  `montopago` INT NOT NULL,
+  `mes_apagar` INT NOT NULL,
+  `ano_apagar` INT NOT NULL,
+  `pago_idcliente` INT NOT NULL,
+  PRIMARY KEY (`idpagoclientes`));
+
+ALTER TABLE `sprint`.`pagoclientes` 
+ADD INDEX `pagocliente_idcliente_idx` (`pago_idcliente` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`pagoclientes` 
+ADD CONSTRAINT `pagocliente_rutcliente`
+  FOREIGN KEY (`pago_idcliente`)
+  REFERENCES `sprint`.`cliente` (`rutcliente`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+CREATE TABLE `sprint`.`asesorias` (
+  `idasesorias` INT NOT NULL,
+  `fecha_realizacion` DATE NOT NULL,
+  `motivo_solicitud` VARCHAR(100) NOT NULL,
+  `profesional_acargo` INT NOT NULL,
+  PRIMARY KEY (`idasesorias`),
+  UNIQUE INDEX `idasesorias_UNIQUE` (`idasesorias` ASC) VISIBLE);
+
+ALTER TABLE `sprint`.`asesorias` 
+ADD INDEX `asesorias_profesionales_FK_idx` (`profesional_acargo` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`asesorias` 
+ADD CONSTRAINT `asesorias_profesionales_FK`
+  FOREIGN KEY (`profesional_acargo`)
+  REFERENCES `sprint`.`profesionales` (`id_prof`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+CREATE TABLE `sprint`.`accionesmejora` (
+  `id_accion` INT NOT NULL AUTO_INCREMENT,
+  `titulo_actividad` VARCHAR(45) NOT NULL,
+  `descripcion` VARCHAR(100) NOT NULL,
+  `plazo_accion` INT NOT NULL,
+  PRIMARY KEY (`id_accion`),
+  UNIQUE INDEX `id_accion_UNIQUE` (`id_accion` ASC) VISIBLE);
+
+ALTER TABLE `sprint`.`accionesmejora` 
+ADD CONSTRAINT `accion_asesoria_FK`
+  FOREIGN KEY (`id_accion`)
+  REFERENCES `sprint`.`asesorias` (`idasesorias`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
