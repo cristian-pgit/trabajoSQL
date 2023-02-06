@@ -1,0 +1,188 @@
+CREATE SCHEMA `sprint` ;
+
+CREATE TABLE `sprint`.`accidente` (
+  `idaccidente` INT NOT NULL,
+  `accidia` datetime NOT NULL,
+  `accihora` datetime NOT NULL,
+  `accilugar` varchar(150) NOT NULL,
+  `acciorigen` varchar(100) NOT NULL,
+  `acciconsecuencias` varchar(100) DEFAULT NULL,
+  `cliente_idcliente` INT NOT NULL,
+  PRIMARY KEY (`idaccidente`));
+ 
+
+CREATE TABLE `sprint`.`asistentes` (
+  `idasistentes` INT NOT NULL,
+  `asistnombrecompleto` varchar(100) NOT NULL,
+  `asistedad` INT NOT NULL,
+  `asistcorreo` varchar(70) DEFAULT NULL,
+  `asisttelefono` varchar(20) DEFAULT NULL,
+  `capacitacion_idcapacitacion` INT NOT NULL,
+  PRIMARY KEY (`idasistentes`));
+
+CREATE TABLE `sprint`.`capacitacion` (
+  `idcapacitacion` INT NOT NULL,
+  `capfecha` datetime NOT NULL,
+  `caphora` datetime DEFAULT NULL,
+  `caplugar` varchar(50) NOT NULL,
+  `capduracion` INT DEFAULT NULL,
+  `cliente_rutcliente` INT NOT NULL,
+  PRIMARY KEY (`idcapacitacion`));
+  
+
+CREATE TABLE `sprint`.`cliente` (
+  `rutcliente` INT NOT NULL,
+  `clinombres` varchar(30) NOT NULL,
+  `cliapellidos` varchar(50) NOT NULL,
+  `clitelefono` varchar(20) NOT NULL,
+  `cliafp` varchar(30) DEFAULT NULL,
+  `clisistemasalud` INT DEFAULT NULL,
+  `clidireccion` varchar(70) NOT NULL,
+  `comuna` varchar(50) NOT NULL,
+  `cliedad` INT NOT NULL,
+  PRIMARY KEY (`rutcliente`));
+
+CREATE TABLE `sprint`.`visita` (
+  `idvisita` INT NOT NULL,
+  `visfecha` datetime NOT NULL,
+  `vishora` datetime DEFAULT NULL,
+  `vislugar` varchar(50) NOT NULL,
+  `viscomentario` varchar(250) NOT NULL,
+  `cliente_rutcliente` INT NOT NULL,
+  PRIMARY KEY (`idvisita`));
+ 
+
+CREATE TABLE `sprint`.`chequeos` (
+  `id_check` INT NOT NULL,
+  `nom_chequeo` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_check`));
+
+CREATE TABLE `sprint`.`administrativos` (
+  `id_administrativo` INT NOT NULL,
+  `run_administrativo` INT(9) NOT NULL,
+  `nombre_administrativo` VARCHAR(70) NOT NULL,
+  `apellido_administrativo` VARCHAR(70) NOT NULL,
+  `correo_administrativo` VARCHAR(45) NULL,
+  `area_administrativo` VARCHAR(45) NULL,
+  `admin_idusuario` INT NOT NULL,
+  PRIMARY KEY (`id_administrativo`));
+
+CREATE TABLE `sprint`.`profesionales` (
+  `id_prof` INT NOT NULL,
+  `run_prof` VARCHAR(45) NOT NULL,
+  `nombre_prof` VARCHAR(45) NOT NULL,
+  `apellido_prof` VARCHAR(45) NOT NULL,
+  `fono_prof` VARCHAR(45) NOT NULL,
+  `titulo_prof` VARCHAR(45) NOT NULL,
+  `proyecto_prof` VARCHAR(45) NOT NULL,
+  `prof_idusuario` INT NOT NULL,
+  PRIMARY KEY (`id_prof`));
+
+CREATE TABLE `sprint`.`registro_chequeo` (
+  `idregistro_chequeo` INT NOT NULL,
+  `estado chequeo` INT NOT NULL,
+  `check_idvisita` INT NOT NULL,
+  `check_idchequeo` INT NOT NULL,
+  PRIMARY KEY (`idregistro_chequeo`));
+
+CREATE TABLE `sprint`.`usuario` (
+  `idusuario` INT NOT NULL,
+  `nombreuser` VARCHAR(45) NOT NULL,
+  `apellidouser` VARCHAR(45) NOT NULL,
+  `fnacimientouser` INT NOT NULL,
+  `rutuser` INT NOT NULL,
+  `user_rutcliente` INT NOT NULL,
+  PRIMARY KEY (`idusuario`));
+
+
+
+
+ALTER TABLE `sprint`.`registro_chequeo` 
+ADD INDEX `registrocheck_chequeo_fk_idx` (`check_idchequeo` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`registro_chequeo` 
+ADD CONSTRAINT `registrocheck_chequeo_fk`
+  FOREIGN KEY (`check_idchequeo`)
+  REFERENCES `sprint`.`chequeos` (`id_check`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `sprint`.`registro_chequeo` 
+ADD INDEX `registrocheck_visita_fk_idx` (`check_idvisita` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`registro_chequeo` 
+ADD CONSTRAINT `registrocheck_visita_fk`
+  FOREIGN KEY (`check_idvisita`)
+  REFERENCES `sprint`.`visita` (`idvisita`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+ALTER TABLE `sprint`.`usuario` 
+ADD INDEX `usuario_cliente_FK_idx` (`user_rutcliente` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`usuario` 
+ADD CONSTRAINT `usuario_cliente_FK`
+  FOREIGN KEY (`user_rutcliente`)
+  REFERENCES `sprint`.`cliente` (`rutcliente`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+ALTER TABLE `sprint`.`visita` 
+ADD INDEX `visita_cliente_FK_idx` (`cliente_rutcliente` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`visita` 
+ADD CONSTRAINT `visita_cliente_FK`
+  FOREIGN KEY (`cliente_rutcliente`)
+  REFERENCES `sprint`.`cliente` (`rutcliente`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+ALTER TABLE `sprint`.`asistentes` 
+ADD INDEX `asistentes_capacitacion_FK_idx` (`capacitacion_idcapacitacion` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`asistentes` 
+ADD CONSTRAINT `asistentes_capacitacion_FK`
+  FOREIGN KEY (`capacitacion_idcapacitacion`)
+  REFERENCES `sprint`.`capacitacion` (`idcapacitacion`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+ALTER TABLE `sprint`.`capacitacion` 
+ADD INDEX `capacitacion_cliente_FK_idx` (`cliente_rutcliente` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`capacitacion` 
+ADD CONSTRAINT `capacitacion_cliente_FK`
+  FOREIGN KEY (`cliente_rutcliente`)
+  REFERENCES `sprint`.`cliente` (`rutcliente`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+ALTER TABLE `sprint`.`accidente` 
+ADD INDEX `accidente_cliente_FK_idx` (`cliente_idcliente` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`accidente` 
+ADD CONSTRAINT `accidente_cliente_FK`
+  FOREIGN KEY (`cliente_idcliente`)
+  REFERENCES `sprint`.`cliente` (`rutcliente`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+ALTER TABLE `sprint`.`profesionales` 
+ADD INDEX `profesionales_usuario_FK_idx` (`prof_idusuario` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`profesionales` 
+ADD CONSTRAINT `profesionales_usuario_FK`
+  FOREIGN KEY (`prof_idusuario`)
+  REFERENCES `sprint`.`usuario` (`idusuario`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+ALTER TABLE `sprint`.`administrativos` 
+ADD INDEX `administrativos_usuario_FK_idx` (`admin_idusuario` ASC) VISIBLE;
+;
+ALTER TABLE `sprint`.`administrativos` 
+ADD CONSTRAINT `administrativos_usuario_FK`
+  FOREIGN KEY (`admin_idusuario`)
+  REFERENCES `sprint`.`usuario` (`idusuario`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
