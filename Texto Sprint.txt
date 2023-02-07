@@ -2,8 +2,8 @@ CREATE SCHEMA `sprint` ;
 
 CREATE TABLE `sprint`.`accidente` (
   `idaccidente` INT NOT NULL,
-  `accidia` datetime NOT NULL,
-  `accihora` datetime NOT NULL,
+  `accidia` date NOT NULL,
+  `accihora` time NOT NULL,
   `accilugar` varchar(150) NOT NULL,
   `acciorigen` varchar(100) NOT NULL,
   `acciconsecuencias` varchar(100) DEFAULT NULL,
@@ -22,8 +22,8 @@ CREATE TABLE `sprint`.`asistentes` (
 
 CREATE TABLE `sprint`.`capacitacion` (
   `idcapacitacion` INT NOT NULL,
-  `capfecha` datetime NOT NULL,
-  `caphora` datetime DEFAULT NULL,
+  `capfecha` date NOT NULL,
+  `caphora` time DEFAULT NULL,
   `caplugar` varchar(50) NOT NULL,
   `capduracion` INT DEFAULT NULL,
   `cliente_rutcliente` INT NOT NULL,
@@ -44,8 +44,8 @@ CREATE TABLE `sprint`.`cliente` (
 
 CREATE TABLE `sprint`.`visita` (
   `idvisita` INT NOT NULL,
-  `visfecha` datetime NOT NULL,
-  `vishora` datetime DEFAULT NULL,
+  `visfecha` date NOT NULL,
+  `vishora` time DEFAULT NULL,
   `vislugar` varchar(50) NOT NULL,
   `viscomentario` varchar(250) NOT NULL,
   `cliente_rutcliente` INT NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE `sprint`.`profesionales` (
 
 CREATE TABLE `sprint`.`registro_chequeo` (
   `idregistro_chequeo` INT NOT NULL,
-  `estado chequeo` INT NOT NULL,
+  `estado_chequeo` VARCHAR(45) NOT NULL,
   `check_idvisita` INT NOT NULL,
   `check_idchequeo` INT NOT NULL,
   PRIMARY KEY (`idregistro_chequeo`));
@@ -89,7 +89,7 @@ CREATE TABLE `sprint`.`usuario` (
   `idusuario` INT NOT NULL,
   `nombreuser` VARCHAR(45) NOT NULL,
   `apellidouser` VARCHAR(45) NOT NULL,
-  `fnacimientouser` INT NOT NULL,
+  `fnacimientouser` DATE NOT NULL,
   `rutuser` INT NOT NULL,
   `user_rutcliente` INT NOT NULL,
   PRIMARY KEY (`idusuario`));
@@ -187,10 +187,9 @@ ADD CONSTRAINT `administrativos_usuario_FK`
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 
-/*----- avance ----- */
 
 CREATE TABLE `sprint`.`pagoclientes` (
-  `idpagoclientes` INT NOT NULL,
+  `idpagoclientes` INT NOT NULL AUTO_INCREMENT,
   `fechapago` DATE NOT NULL,
   `montopago` INT NOT NULL,
   `mes_apagar` INT NOT NULL,
